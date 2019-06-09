@@ -11,7 +11,7 @@ function init() {}
 
 export async function prepare(byteCount: number) {
   const buff = await Random.getRandomBytesAsync(byteCount);
-  RNS = Buffer.concat([RNS, buff]);
+  RNS = Buffer.concat([RNS, toBuffer(buff)]);
 }
 
 export function randomBytes(length: number, cb: (ret: Buffer | null, err?: Error) => void) {

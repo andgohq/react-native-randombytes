@@ -36,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Random = require("expo-random");
-var typedarray_to_buffer_1 = require("typedarray-to-buffer");
 if (typeof Buffer === 'undefined') {
     global.Buffer = require('buffer').Buffer;
 }
@@ -50,7 +49,7 @@ function prepare(byteCount) {
                 case 0: return [4 /*yield*/, Random.getRandomBytesAsync(byteCount)];
                 case 1:
                     buff = _a.sent();
-                    RNS = Buffer.concat([RNS, typedarray_to_buffer_1.default(buff)]);
+                    RNS = Buffer.concat([RNS, Buffer.from(buff)]);
                     return [2 /*return*/];
             }
         });
@@ -70,7 +69,7 @@ function randomBytes(length, cb) {
     }
     Random.getRandomBytesAsync(length)
         .then(function (buff) {
-        cb(null, typedarray_to_buffer_1.default(buff));
+        cb(null, Buffer.from(buff));
     })
         .catch(function (err) {
         cb(err);

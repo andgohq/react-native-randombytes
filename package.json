@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "buffer": "^5.2.1",
-    "expo-random": "^5.0.1",
-    "typedarray-to-buffer": "^3.1.5"
+    "expo-random": "^5.0.1"
   }
 }

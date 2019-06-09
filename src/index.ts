@@ -1,5 +1,4 @@
 import * as Random from 'expo-random';
-import toBuffer from 'typedarray-to-buffer';
 
 if (typeof Buffer === 'undefined') {
   global.Buffer = require('buffer').Buffer;
@@ -11,10 +10,10 @@ function init() {}
 
 export async function prepare(byteCount: number) {
   const buff = await Random.getRandomBytesAsync(byteCount);
-  RNS = Buffer.concat([RNS, toBuffer(buff)]);
+  RNS = Buffer.concat([RNS, Buffer.from(buff)]);
 }
 
-export function randomBytes(length: number, cb: (ret: Buffer | null, err?: Error) => void) {
+export function randomBytes(length: number, cb: (err?: Error, ret?: Buffer) => void) {
   if (!cb) {
     if (length <= RNS.length) {
       const ret = Buffer.from(RNS.slice(0, length));
@@ -27,7 +26,7 @@ export function randomBytes(length: number, cb: (ret: Buffer | null, err?: Error
 
   Random.getRandomBytesAsync(length)
     .then(buff => {
-      cb(null, toBuffer(buff));
+      cb(null, Buffer.from(buff));
     })
     .catch(err => {
       cb(err);

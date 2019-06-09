@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Random = require("expo-random");
 exports.RNS_MAX = 1024;
+var max = function (a, b) { return (a < b ? b : a); };
 if (typeof Buffer === 'undefined') {
     global.Buffer = require('buffer').Buffer;
 }
@@ -59,7 +60,11 @@ function generate(byteCount) {
         var buff;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, Random.getRandomBytesAsync(byteCount)];
+                case 0:
+                    if (byteCount == 0) {
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, Random.getRandomBytesAsync(byteCount)];
                 case 1:
                     buff = _a.sent();
                     RNS = Buffer.concat([RNS, Buffer.from(buff)]);
@@ -73,7 +78,7 @@ function randomBytes(length, cb) {
         if (length <= RNS.length) {
             var ret = Buffer.from(RNS.slice(0, length));
             RNS = RNS.slice(length, RNS.length - length);
-            generate(exports.RNS_MAX - RNS.length);
+            generate(max(0, exports.RNS_MAX - RNS.length));
             return ret;
         }
         else {

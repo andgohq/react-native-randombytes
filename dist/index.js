@@ -50,7 +50,7 @@ function prepare(byteCount) {
                 case 0: return [4 /*yield*/, Random.getRandomBytesAsync(byteCount)];
                 case 1:
                     buff = _a.sent();
-                    RNS = Buffer.concat([RNS, buff]);
+                    RNS = Buffer.concat([RNS, typedarray_to_buffer_1.default(buff)]);
                     return [2 /*return*/];
             }
         });

@@ -1,1 +1,1 @@
-export { prepare, randomBytes } from '../src/index';
+export { RNS_MAX, init, randomBytes } from '../src/index';

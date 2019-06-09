@@ -1,14 +1,18 @@
 import * as Random from 'expo-random';
 
+export const RNS_MAX = 1024;
+
 if (typeof Buffer === 'undefined') {
   global.Buffer = require('buffer').Buffer;
 }
 
 let RNS = Buffer.allocUnsafe(0);
 
-function init() {}
+export async function init() {
+  await generate(RNS_MAX);
+}
 
-export async function prepare(byteCount: number) {
+async function generate(byteCount: number) {
   const buff = await Random.getRandomBytesAsync(byteCount);
   RNS = Buffer.concat([RNS, Buffer.from(buff)]);
 }
@@ -18,6 +22,9 @@ export function randomBytes(length: number, cb: (err?: Error, ret?: Buffer) => v
     if (length <= RNS.length) {
       const ret = Buffer.from(RNS.slice(0, length));
       RNS = RNS.slice(length, RNS.length - length);
+
+      generate(RNS_MAX - RNS.length);
+
       return ret;
     } else {
       throw new Error('Should be prepare enough random numbers');
@@ -32,5 +39,3 @@ export function randomBytes(length: number, cb: (err?: Error, ret?: Buffer) => v
       cb(err);
     });
 }
-
-init();

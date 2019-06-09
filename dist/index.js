@@ -36,12 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Random = require("expo-random");
+exports.RNS_MAX = 1024;
 if (typeof Buffer === 'undefined') {
     global.Buffer = require('buffer').Buffer;
 }
 var RNS = Buffer.allocUnsafe(0);
-function init() { }
-function prepare(byteCount) {
+function init() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, generate(exports.RNS_MAX)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.init = init;
+function generate(byteCount) {
     return __awaiter(this, void 0, void 0, function () {
         var buff;
         return __generator(this, function (_a) {
@@ -55,12 +68,12 @@ function prepare(byteCount) {
         });
     });
 }
-exports.prepare = prepare;
 function randomBytes(length, cb) {
     if (!cb) {
         if (length <= RNS.length) {
             var ret = Buffer.from(RNS.slice(0, length));
             RNS = RNS.slice(length, RNS.length - length);
+            generate(exports.RNS_MAX - RNS.length);
             return ret;
         }
         else {
@@ -76,4 +89,3 @@ function randomBytes(length, cb) {
     });
 }
 exports.randomBytes = randomBytes;
-init();
